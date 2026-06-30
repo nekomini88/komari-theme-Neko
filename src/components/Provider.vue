@@ -2,10 +2,12 @@
 import type { ThemeMode } from '@/stores/app'
 import { useDark } from '@vueuse/core'
 import { computed, provide, ref, watch } from 'vue'
+import { storeToRefs } from 'pinia'
 import { BackTop } from '@/components/ui/back-top'
 import { useAppStore } from '@/stores/app'
 
 const appStore = useAppStore()
+const { publicSettings } = storeToRefs(appStore)
 
 const isScrolled = ref(false)
 provide('isScrolled', isScrolled)
@@ -31,7 +33,8 @@ watch(
     const root = document.documentElement
     if (dark)
       root.classList.add('dark')
-    else root.classList.remove('dark')
+    else
+      root.classList.remove('dark')
     root.style.colorScheme = dark ? 'dark' : 'light'
   },
   { immediate: true },
@@ -45,6 +48,31 @@ watch(
       body.style.setProperty('background-color', 'transparent', 'important')
     else
       body.style.removeProperty('background-color')
+  },
+  { immediate: true },
+)
+
+// Theme selection from komari-theme-light
+const themeSelection = computed(() => {
+  const settings = publicSettings.value
+  if (!settings?.theme_settings) return 'emerald'
+  const themeSettings = settings.theme_settings as Record<string, unknown>
+  const selection = themeSettings.themeSelection
+  if (typeof selection === 'string') {
+    return selection
+  }
+  return 'emerald'
+})
+
+watch(
+  () => themeSelection.value,
+  (newVal) => {
+    const root = document.documentElement
+    if (newVal && newVal !== 'emerald') {
+      root.setAttribute('data-theme', newVal)
+    } else {
+      root.removeAttribute('data-theme')
+    }
   },
   { immediate: true },
 )

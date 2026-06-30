@@ -2,7 +2,7 @@
   "name": "Komari Neko",
   "short": "Emerald",
   "description": "An emerald theme for Komari",
-  "version": "1.19.0",
+  "version": "1.19.1",
   "author": "Riddle & Tokinx",
   "url": "https://github.com/R1ddle1337/komari-theme-emerald",
   "preview": "preview.png",
@@ -65,6 +65,18 @@
       {
         "name": "页面设置",
         "type": "title"
+      },
+      {
+        "name": "主题设置",
+        "type": "title"
+      },
+      {
+        "key": "themeSelection",
+        "name": "主题选择",
+        "type": "select",
+        "default": "emerald",
+        "options": "emerald,sunrise,green-mountain,blue-water,night,material-indigo,material-pink,material-teal",
+        "help": "选择网站的主题颜色"
       },
       {
         "key": "stopEarth",

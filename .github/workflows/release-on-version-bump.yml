@@ -128,4 +128,4 @@ jobs:
           overwrite_files: true
           fail_on_unmatched_files: true
           files: |
-            komari-theme-emerald-build*.zip
+            komari-theme-neko-build*.zip

@@ -78,14 +78,14 @@ const paletteTriggerRef = ref<HTMLElement>()
 const paletteMenuRef = ref<HTMLElement>()
 const palettePosition = ref({ top: '0px', right: '0px' })
 const paletteOptions = [
-  { label: '日出', value: 'sunrise', color: 'oklch(0.55 0.15 45)' },
-  { label: '青山', value: 'green-mountain', color: 'oklch(0.45 0.15 140)' },
-  { label: '绿水', value: 'blue-water', color: 'oklch(0.5 0.15 210)' },
-  { label: '夜晚', value: 'night', color: 'oklch(0.65 0.15 250)' },
-  { label: '靛蓝', value: 'material-indigo', color: 'oklch(0.48 0.16 264)' },
-  { label: '粉红', value: 'material-pink', color: 'oklch(0.52 0.24 350)' },
-  { label: '青蓝', value: 'material-teal', color: 'oklch(0.48 0.12 192)' },
-  { label: '翠绿', value: 'emerald', color: 'oklch(0.205 0 0)' },
+  { label: '日出', value: 'sunrise', color: 'oklch(0.98 0.015 60)' },
+  { label: '青山', value: 'green-mountain', color: 'oklch(0.97 0.015 120)' },
+  { label: '绿水', value: 'blue-water', color: 'oklch(0.97 0.015 210)' },
+  { label: '夜晚', value: 'night', color: 'oklch(0.12 0.01 240)' },
+  { label: '靛蓝', value: 'material-indigo', color: 'oklch(0.985 0.005 270)' },
+  { label: '粉红', value: 'material-pink', color: 'oklch(0.98 0.01 350)' },
+  { label: '青蓝', value: 'material-teal', color: 'oklch(0.97 0.015 180)' },
+  { label: '翠绿', value: 'emerald', color: 'oklch(1 0 0)' },
 ]
 
 function updatePaletteMenuPosition() {

@@ -51,7 +51,7 @@ onUnmounted(() => {
     </Transition>
     <Header />
     <main v-if="!appStore.loading" class="relative z-10 min-h-screen overflow-hidden">
-      <div class="max-w-[1440px] mx-auto">
+      <div class="max-w-[1600px] mx-auto">
         <RouterView v-slot="{ Component }">
           <Transition
             enter-active-class="transition-all duration-200 ease-out"

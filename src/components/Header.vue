@@ -207,7 +207,12 @@ const sitename = computed(() => appStore.publicSettings?.sitename || 'Komari Mon
             <Tooltip>
               <TooltipTrigger as-child>
                 <Button variant="ghost" size="icon-sm" @click.stop="togglePaletteMenu" class="text-foreground">
-                  <Icon icon="lucide:palette" :width="20" :height="20" />
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-foreground">
+                    <circle cx="13.5" cy="6.5" r="2.5" />
+                    <circle cx="18.5" cy="11.5" r="2.5" />
+                    <circle cx="8.5" cy="16.5" r="2.5" />
+                    <circle cx="6.5" cy="8.5" r="2.5" />
+                  </svg>
                 </Button>
               </TooltipTrigger>
               <TooltipContent>调色板</TooltipContent>

@@ -1,7 +1,7 @@
 {
   "name": "komari-theme-neko",
   "type": "module",
-  "version": "1.19.2",
+  "version": "2.1.1",
   "packageManager": "bun@1.3.14",
   "author": "Neko",
   "license": "MIT",

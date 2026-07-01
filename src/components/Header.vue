@@ -207,7 +207,7 @@ const sitename = computed(() => appStore.publicSettings?.sitename || 'Komari Mon
             <Tooltip>
               <TooltipTrigger as-child>
                 <Button variant="ghost" size="icon-sm" @click.stop="togglePaletteMenu">
-                  <Icon icon="lucide:palette" :width="18" :height="18" />
+                  <Icon icon="icon-park-outline:color-swatch" :width="18" :height="18" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>调色板</TooltipContent>

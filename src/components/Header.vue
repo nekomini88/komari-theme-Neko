@@ -78,14 +78,14 @@ const paletteTriggerRef = ref<HTMLElement>()
 const paletteMenuRef = ref<HTMLElement>()
 const palettePosition = ref({ top: '0px', right: '0px' })
 const paletteOptions = [
-  { label: '日出', value: 'sunrise' },
-  { label: '青山', value: 'green-mountain' },
-  { label: '绿水', value: 'blue-water' },
-  { label: '夜晚', value: 'night' },
-  { label: '靛蓝', value: 'material-indigo' },
-  { label: '粉红', value: 'material-pink' },
-  { label: '青蓝', value: 'material-teal' },
-  { label: '翠绿', value: 'emerald' },
+  { label: '日出', value: 'sunrise', color: 'oklch(0.55 0.15 45)' },
+  { label: '青山', value: 'green-mountain', color: 'oklch(0.45 0.15 140)' },
+  { label: '绿水', value: 'blue-water', color: 'oklch(0.5 0.15 210)' },
+  { label: '夜晚', value: 'night', color: 'oklch(0.65 0.15 250)' },
+  { label: '靛蓝', value: 'material-indigo', color: 'oklch(0.48 0.16 264)' },
+  { label: '粉红', value: 'material-pink', color: 'oklch(0.52 0.24 350)' },
+  { label: '青蓝', value: 'material-teal', color: 'oklch(0.48 0.12 192)' },
+  { label: '翠绿', value: 'emerald', color: 'oklch(0.205 0 0)' },
 ]
 
 function updatePaletteMenuPosition() {
@@ -281,6 +281,7 @@ const sitename = computed(() => appStore.publicSettings?.sitename || 'Komari Mon
           class="flex items-center gap-2 w-full rounded-md px-2.5 py-1.5 text-sm transition-colors hover:bg-accent/50 cursor-pointer"
           @click.stop="selectPalette(opt.value)"
         >
+          <div class="w-3 h-3 rounded-full border border-border" :style="{ backgroundColor: opt.color }" />
           <span>{{ opt.label }}</span>
         </button>
       </div>

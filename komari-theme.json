@@ -1,10 +1,10 @@
 {
   "name": "Komari Neko",
-  "short": "Emerald",
+  "short": "Emerald-Marge",
   "description": "An neko theme for komari",
-  "version": "1.19.1",
+  "version": "1.19.2",
   "author": "Neko",
-  "url": "https://github.com/R1ddle1337/komari-theme-emerald",
+  "url": "https://github.com/nekomini88/komari-theme-Neko",
   "preview": "preview.png",
   "configuration": {
     "type": "managed",

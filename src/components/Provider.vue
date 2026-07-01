@@ -37,7 +37,7 @@ watch(
       root.classList.remove('dark')
     root.style.colorScheme = dark ? 'dark' : 'light'
   },
-  { immediate: true },
+  { immediate: true }
 )
 
 watch(
@@ -49,32 +49,36 @@ watch(
     else
       body.style.removeProperty('background-color')
   },
-  { immediate: true },
+  { immediate: true }
 )
 
-// Theme selection from komari-theme-light
-const themeSelection = computed(() => {
-  const settings = publicSettings.value
-  if (!settings?.theme_settings) return 'emerald'
-  const themeSettings = settings.theme_settings as Record<string, unknown>
-  const selection = themeSettings.themeSelection
-  if (typeof selection === 'string') {
-    return selection
-  }
-  return 'emerald'
+// Theme selection from komari-theme-light with client override
+const themeOverride = ref<string | null>(null)
+provide('themeOverride', themeOverride)
+provide('setThemeOverride', (value: string | null) => {
+  themeOverride.value = value
+})
+
+const finalTheme = computed(() => {
+  return (
+    themeOverride.value ??
+    (publicSettings.value?.theme_settings?.themeSelection ?? 'emerald')
+  )
 })
 
 watch(
-  () => themeSelection.value,
+  () => finalTheme.value,
   (newVal) => {
     const root = document.documentElement
-    if (newVal && newVal !== 'emerald') {
+    if (typeof newVal === 'string' && newVal !== 'emerald') {
+      console.log('[Theme] Setting theme to:', newVal)
       root.setAttribute('data-theme', newVal)
     } else {
+      console.log('[Theme] Resetting to default (emerald)')
       root.removeAttribute('data-theme')
     }
   },
-  { immediate: true },
+  { immediate: true }
 )
 </script>
 

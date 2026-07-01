@@ -40,12 +40,6 @@ function toggleMenu() {
   }
 }
 
-const shaderOptions: { label: string, value: ShaderType, icon: string }[] = [
-  { label: '气泡', value: 'bubbles', icon: 'icon-park-outline:bubble' },
-  { label: '流体', value: 'liquid', icon: 'icon-park-outline:water-level' },
-  { label: '无', value: 'none', icon: 'icon-park-outline:close-one' },
-]
-
 function selectShader(value: ShaderType) {
   appStore.shaderType = value
   showShaderMenu.value = false
@@ -69,6 +63,81 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   document.removeEventListener('click', handleClickOutside, true)
+})
+
+// 着色器选项
+const shaderOptions: { label: string, value: ShaderType, icon: string }[] = [
+  { label: '气泡', value: 'bubbles', icon: 'icon-park-outline:bubble' },
+  { label: '流体', value: 'liquid', icon: 'icon-park-outline:water-level' },
+  { label: '无', value: 'none', icon: 'icon-park-outline:close-one' },
+]
+
+// 调色板状态
+const showPaletteMenu = ref(false)
+const paletteTriggerRef = ref<HTMLElement>()
+const paletteMenuRef = ref<HTMLElement>()
+const palettePosition = ref({ top: '0px', right: '0px' })
+const paletteOptions = [
+  { label: '日出', value: 'sunrise' },
+  { label: '青山', value: 'green-mountain' },
+  { label: '绿水', value: 'blue-water' },
+  { label: '夜晚', value: 'night' },
+  { label: '靛蓝', value: 'material-indigo' },
+  { label: '粉红', value: 'material-pink' },
+  { label: '青蓝', value: 'material-teal' },
+  { label: '翠绿', value: 'emerald' },
+]
+
+function updatePaletteMenuPosition() {
+  if (!paletteTriggerRef.value)
+    return
+  const rect = paletteTriggerRef.value.getBoundingClientRect()
+  palettePosition.value = {
+    top: `${rect.bottom + 8}px`,
+    right: `${window.innerWidth - rect.right}px`,
+  }
+}
+
+function togglePaletteMenu() {
+  showPaletteMenu.value = !showPaletteMenu.value
+  if (showPaletteMenu.value) {
+    nextTick(updatePaletteMenuPosition)
+  }
+}
+
+function selectPalette(value: string) {
+  const setThemeOverride = inject<((value: string | null) => void) | null>('setThemeOverride')
+  if (setThemeOverride) {
+    setThemeOverride(value)
+  } else {
+    // 后备方案：直接设置属性
+    const root = document.documentElement
+    if (value && value !== 'emerald') {
+      root.setAttribute('data-theme', value)
+    } else {
+      root.removeAttribute('data-theme')
+    }
+  }
+  showPaletteMenu.value = false
+}
+
+function handleClickOutsidePalette(e: MouseEvent) {
+  if (!showPaletteMenu.value)
+    return
+  const target = e.target as HTMLElement
+  if (target.closest('.palette-menu-container'))
+    return
+  if (target.closest('.palette-menu-dropdown'))
+    return
+  showPaletteMenu.value = false
+}
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutsidePalette, true)
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('click', handleClickOutsidePalette, true)
 })
 
 const actionButtons = computed(() => {
@@ -133,6 +202,18 @@ const sitename = computed(() => appStore.publicSettings?.sitename || 'Komari Mon
             </Tooltip>
           </div>
 
+          <!-- 调色板 -->
+          <div ref="paletteTriggerRef" class="relative palette-menu-container">
+            <Tooltip>
+              <TooltipTrigger as-child>
+                <Button variant="ghost" size="icon-sm" @click.stop="togglePaletteMenu">
+                  <Icon icon="icon-park-outline:paint-bucket" :width="18" :height="18" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>调色板</TooltipContent>
+            </Tooltip>
+          </div>
+
           <Tooltip v-for="button in actionButtons" :key="button.action">
             <TooltipTrigger as-child>
               <Button variant="ghost" size="icon-sm" @click="handleButtonClick(button.action)">
@@ -171,6 +252,35 @@ const sitename = computed(() => appStore.publicSettings?.sitename || 'Komari Mon
           @click.stop="selectShader(opt.value)"
         >
           <Icon :icon="opt.icon" :width="16" :height="16" />
+          <span>{{ opt.label }}</span>
+        </button>
+      </div>
+    </Transition>
+  </Teleport>
+
+  <!-- 调色板菜单 Teleport 到 body -->
+  <Teleport to="body">
+    <Transition
+      enter-active-class="transition-all duration-150 ease-out"
+      enter-from-class="opacity-0 scale-95 -translate-y-1"
+      enter-to-class="opacity-100 scale-100 translate-y-0"
+      leave-active-class="transition-all duration-100 ease-in"
+      leave-from-class="opacity-100 scale-100 translate-y-0"
+      leave-to-class="opacity-0 scale-95 -translate-y-1"
+    >
+      <div
+        v-if="showPaletteMenu"
+        ref="paletteMenuRef"
+        class="palette-menu-dropdown fixed w-36 rounded-lg border border-border bg-popover/90 backdrop-blur-xl p-1 shadow-lg z-[9999]"
+        :style="{ top: palettePosition.top, right: palettePosition.right }"
+      >
+        <button
+          v-for="opt in paletteOptions"
+          :key="opt.value"
+          type="button"
+          class="flex items-center gap-2 w-full rounded-md px-2.5 py-1.5 text-sm transition-colors hover:bg-accent/50 cursor-pointer"
+          @click.stop="selectPalette(opt.value)"
+        >
           <span>{{ opt.label }}</span>
         </button>
       </div>
